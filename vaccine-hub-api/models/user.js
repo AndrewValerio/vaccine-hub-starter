@@ -9,8 +9,8 @@ class User{
         return{
             id: user.id,
             email: user.email,
-            first_name: user.first_name,
-            last_name: user.last_name,
+            firstName: user.firstName,
+            lastName: user.lastName,
             location: user.location,
             date: user.date
         }
@@ -42,7 +42,7 @@ class User{
     static async register(credentials){
        //user should submit their email, pw, first and last name, and location + time 
        // if any of these fields are missing, throw an error
-        const requiredFields = ["email", "password", "first_name", "last_name", "location", "date"]
+        const requiredFields = ["email", "password", "firstName", "lastName", "location", "date"]
         requiredFields.forEach(field => {
             if(!credentials.hasOwnProperty(field)){
                 throw new BadRequestError(`missing ${field} in request body.`)
@@ -68,15 +68,15 @@ class User{
             INSERT INTO users (
                 email,
                 password,
-                first_name,
-                last_name,
+                firstName,
+                lastName,
                 location,
                 date
             )
             VALUES ($1, $2, $3, $4, $5, $6)
-            RETURNING id, email, first_name, last_name, location, date;
+            RETURNING id, email, firstName, lastName, location, date;
 
-       `, [lowercasedEmail, hashedPassword, credentials.first_name, credentials.last_name, 
+       `, [lowercasedEmail, hashedPassword, credentials.firstName, credentials.lastName, 
         credentials.location, credentials.date])
        //return the user
        const user = result.rows[0]
